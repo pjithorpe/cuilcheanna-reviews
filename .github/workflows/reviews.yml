@@ -1,0 +1,64 @@
+name: Update reviews
+
+on:
+  schedule:
+    # Daily at 05:17 UTC (odd minute to avoid the top-of-hour rush).
+    - cron: "17 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-reviews
+  cancel-in-progress: false
+
+jobs:
+  update-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run parser tests
+        run: python -m unittest discover tests -v
+
+      - name: Scrape reviews
+        env:
+          FTB_W_ID: "50548"
+          FTB_PROPERTY_ID: "55894"
+          FTB_W_TKN: ${{ secrets.FTB_W_TKN }}
+        run: python scrape.py
+
+      - name: Commit reviews.json if changed
+        run: |
+          git config user.name "reviews-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reviews.json
+          if ! git diff --staged --quiet; then
+            git commit -m "Update reviews.json [skip ci]"
+            git push
+            exit 0
+          fi
+
+          echo "No review changes."
+          # Keepalive: GitHub disables scheduled workflows on repos that have
+          # been inactive for 60 days. A quiet spell between reviews could do
+          # that, so on the 1st of each month we commit the run timestamp to
+          # keep the repo (and therefore the cron) alive.
+          if [ "$(date -u +%d)" = "01" ]; then
+            date -u +"%Y-%m-%dT%H:%M:%SZ" > last-run.txt
+            git add last-run.txt
+            if ! git diff --staged --quiet; then
+              git commit -m "Keepalive: scheduled run $(date -u +%F) [skip ci]"
+              git push
+            fi
+          fi
