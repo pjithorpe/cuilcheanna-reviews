@@ -6,8 +6,13 @@
      Placement:
        • Drop a Code Block containing  <div id="ftb-reviews"></div>  wherever
          you want the section to appear, and it renders there.
+         (Intended home: directly under the "Spend your whole time in the
+         Highlands…" heading on the homepage.)
        • If no such marker exists, it auto-mounts on the homepage, just above
          the site footer.
+
+     Data comes from a cached JSON feed refreshed daily by GitHub Actions:
+     https://github.com/pjithorpe/cuilcheanna-reviews
      ========================================================================== -->
 <style>
   .ftbr-section{
@@ -18,17 +23,20 @@
     --ftbr-line: #e7e2d1;
     --ftbr-star: #b3a13a;
     --ftbr-accent: #7c7e50;
+    /* The site sets kepler-std on its own elements rather than on <body>,
+       so inheriting would land us on the browser default. */
+    --ftbr-font: "kepler-std", Georgia, "Times New Roman", serif;
     background: var(--ftbr-bg);
     padding: 64px 0 72px;
     width: 100%;
     overflow: hidden;
-    font-family: inherit;
+    font-family: var(--ftbr-font);
   }
   .ftbr-head{ text-align:center; margin:0 auto 8px; max-width:90%; }
   .ftbr-title{
-    font-family: inherit;
+    font-family: var(--ftbr-font);
     font-size: clamp(1.7rem, 3.4vw, 2.6rem);
-    line-height:1.15; color:var(--ftbr-ink); margin:0 0 10px; font-weight:600;
+    line-height:1.15; color:var(--ftbr-ink); margin:0 0 10px; font-weight:400;
   }
   .ftbr-sub{ color:var(--ftbr-muted); font-size:0.95rem; margin:0 0 4px; letter-spacing:.02em; }
   .ftbr-sub a{ color:var(--ftbr-accent); text-decoration:none; border-bottom:1px solid transparent; }
@@ -51,14 +59,14 @@
   .ftbr-stars-fill{ position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; color:var(--ftbr-star); }
   .ftbr-stars-fill::before{ content:"★★★★★"; }
   .ftbr-quote{
-    color:var(--ftbr-ink); font-size:1.02rem; line-height:1.6; margin:0 0 22px;
+    color:var(--ftbr-ink); font-size:1.02rem; font-weight:300; line-height:1.6; margin:0 0 22px;
     text-align:center; flex:1 1 auto;
     display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden;
   }
   .ftbr-who{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:auto; }
   .ftbr-avatar{ width:52px; height:52px; border-radius:50%; background:#ece8da; display:flex; align-items:center; justify-content:center; }
   .ftbr-avatar svg{ width:52px; height:52px; display:block; }
-  .ftbr-name{ font-weight:600; color:var(--ftbr-ink); font-size:.98rem; }
+  .ftbr-name{ font-weight:500; color:var(--ftbr-ink); font-size:.98rem; }
   .ftbr-meta{ color:var(--ftbr-muted); font-size:.8rem; letter-spacing:.02em; }
 
   @media (max-width:640px){ .ftbr-card{ width:280px; } .ftbr-section{ padding:48px 0 54px; } }
@@ -76,17 +84,20 @@
   "use strict";
 
   // ---- CONFIG ---------------------------------------------------------------
-  var RAW_URL = "__RAW_URL__"; // e.g. https://raw.githubusercontent.com/USER/REPO/main/reviews.json
+  var RAW_URL = "https://raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json";
   var TITLE   = "Kind Words from Our Guests";
   var SUBLINK = "https://www.freetobook.com/reviews/all?w_id=50548&w_tkn=4fkenhRxXnPtna2JOE3gjBZewnvLblGyDiQwp8stAIAAoCuGjEGMrOmoe4elD";
-  var MAX_CARDS = 18;   // most-recent N commented reviews
-  var MIN_CHARS = 0;    // set >0 to hide very short comments
+  var MAX_CARDS  = 18;  // most-recent N reviews that pass the filters
+  var MIN_RATING = 5;   // 5-star reviews only
+  var MIN_CHARS  = 0;   // set >0 to hide very short comments
   // ---------------------------------------------------------------------------
 
   var AVATAR = '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
     + '<circle cx="24" cy="24" r="24" fill="#e6e1d2"/>'
     + '<circle cx="24" cy="19" r="8" fill="#b9b39d"/>'
     + '<path d="M9 42c1.6-8.4 8-13 15-13s13.4 4.6 15 13a24 24 0 0 1-30 0z" fill="#b9b39d"/></svg>';
+
+  var cached = null;  // reviews, kept across client-side page changes
 
   function esc(s){ return String(s == null ? "" : s)
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
@@ -114,7 +125,8 @@
 
   function build(mount, reviews){
     reviews = (reviews || []).filter(function(r){
-      return r && r.comment && r.comment.length >= MIN_CHARS;
+      return r && r.comment && r.comment.length >= MIN_CHARS
+        && Number(r.rating) >= MIN_RATING;
     }).slice(0, MAX_CARDS);
     if (!reviews.length) return;
 
@@ -159,14 +171,33 @@
     mount.setAttribute("data-ftbr-done", "1");
 
     if (window.FTB_REVIEWS_SAMPLE) { build(mount, window.FTB_REVIEWS_SAMPLE); return; }
+    if (cached) { build(mount, cached); return; }
 
     fetch(RAW_URL, { cache: "no-store" })
       .then(function(res){ if(!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
-      .then(function(data){ build(mount, (data && data.reviews) || data); })
+      .then(function(data){ cached = (data && data.reviews) || data; build(mount, cached); })
       .catch(function(err){ /* fail quietly: no broken section */ console && console.warn("[ftbr]", err); });
+  }
+
+  // Squarespace swaps pages client-side, which replaces the marker element
+  // without firing DOMContentLoaded — so re-check on navigation and whenever
+  // the DOM changes. start() is idempotent via the data-ftbr-done flag.
+  var pending = null;
+  function restart(){
+    if (pending) return;
+    pending = setTimeout(function(){ pending = null; start(); }, 150);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
+
+  window.addEventListener("mercury:load", restart);
+  window.addEventListener("popstate", restart);
+  if (window.MutationObserver && document.body) {
+    new MutationObserver(function(){
+      var mount = document.getElementById("ftb-reviews");
+      if (mount && !mount.getAttribute("data-ftbr-done")) restart();
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 })();
 </script>

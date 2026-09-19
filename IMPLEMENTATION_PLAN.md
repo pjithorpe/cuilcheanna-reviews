@@ -8,6 +8,15 @@ auto-scrolling testimonials section on cuilcheannahouse.com via Squarespace Code
 This plan covers everything left after the previous session, which was interrupted part-way through
 uploading files to GitHub through the browser.
 
+> **Status 2026-09-19:** Phases 0–3 are **done** — the repo is published, the feed is live at
+> `raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json` (35 commented reviews,
+> 29 of them 5-star), the secret is set, and two manual workflow runs have gone green. Next up is
+> Phase 4 (front-end), then Phase 5 (Squarespace) behind the approval gate.
+>
+> One fix came out of the first live run: the scraper rewrote `reviews.json` on every run because the
+> `updated` timestamp always changed, which would have meant a commit every day. It now only writes when
+> the reviews themselves change.
+
 ---
 
 ## 1. Where we actually are (verified today)

@@ -6,30 +6,148 @@
 <title>Cuilcheanna House — Reviews section preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   html,body{margin:0}
-  body{ background:#f3efe2; color:#37342a;
-        font-family:"EB Garamond", Georgia, "Times New Roman", serif; }
-  .ftbr-title{ font-family:"Cormorant Garamond", Georgia, serif !important; letter-spacing:.01em; }
-  .preview-note{ text-align:center; font-size:.8rem; color:#a49f8c; padding:26px 16px 0; letter-spacing:.08em; text-transform:uppercase; }
-  .preview-band{ background:#efe9d8; }
+  body{ background:#f6f5ea; color:#37342a; }
+  /* The live site uses Adobe Fonts' kepler-std, which is licensed to
+     cuilcheannahouse.com; EB Garamond stands in for it here. */
+  .ftbr-section{ --ftbr-font:"EB Garamond", Georgia, serif !important; }
+  .preview-note{ text-align:center; font-family:"EB Garamond",Georgia,serif; font-size:.8rem; color:#a49f8c; padding:26px 16px 0; letter-spacing:.08em; text-transform:uppercase; }
 </style>
 </head>
 <body>
-  <p class="preview-note">▼ Live design preview · real FreeToBook reviews · on your site it inherits your fonts ▼</p>
-  <div class="preview-band">
-    <div id="ftb-reviews"></div>
-  </div>
+  <p class="preview-note">▼ Design preview · real 5-star FreeToBook reviews · the live site renders in kepler-std ▼</p>
+  <div id="ftb-reviews"></div>
   <script>
     window.FTB_REVIEWS_SAMPLE = [
-      {"name":"Guest from Heythuysen","date":"18th September, 2026","rating":5,"comment":"good wine needs no bush!"},
-      {"name":"Guest from Fredericton","date":"3rd September, 2026","rating":4.5,"comment":"The stay was wonderful. The views were amazing. I found the shower products very nice — some of the best — and the fan was a pleasant find as I am used to one when I sleep. Overall a wonderful stay and an amazing property!"},
-      {"name":"Guest from MOUTFORT","date":"31st August, 2026","rating":5,"comment":"We stayed one night at Cuilcheanna House B&B and had a wonderful experience. The house is lovely, comfortable and welcoming, and everything was perfect. The breakfast was excellent and made with high-quality products. Emma, the owner, is absolutely lovely and made us feel very welcome. We would happily come back and highly recommend this B&B!"},
-      {"name":"Guest from Penrith","date":"27th August, 2026","rating":5,"comment":"We had a wonderful stay at Cuilcheanna House. A perfect location as our family were staying on Bunree Caravan Park five minutes along the road. We stayed in the room Mull, a beautiful room with bay window and the most superb views over the loch. Breakfast was delicious. Wish we could have stayed longer and will definitely return."},
-      {"name":"Guest from Edinburgh","date":"1st February, 2026","rating":5,"comment":"Incredible house and immaculately presented. For the quality of stay nothing else on booking.com comes close at this price point."},
-      {"name":"Guest from London","date":"27th December, 2025","rating":5,"comment":"Almost perfect. The house was very clean and nostalgic. Nothing to compare — like a museum experience. I will never forget it."}
-    ];
+      {
+            "name": "Guest from Heythuysen",
+            "date": "18th September, 2026",
+            "date_iso": "2026-09-18",
+            "rating": 5.0,
+            "comment": "good wine needs no bush!"
+      },
+      {
+            "name": "Guest from MOUTFORT",
+            "date": "31st August, 2026",
+            "date_iso": "2026-08-31",
+            "rating": 5.0,
+            "comment": "We stayed one night at Cuilcheanna House B&B and had a wonderful experience. The house is lovely, comfortable and welcoming, and everything was perfect. The breakfast was excellent and made with high-quality products. Emma, the owner, is absolutely lovely and made us feel very welcome. We would happily come back and highly recommend this B&B!"
+      },
+      {
+            "name": "Guest from Penrith",
+            "date": "27th August, 2026",
+            "date_iso": "2026-08-27",
+            "rating": 5.0,
+            "comment": "We had a wonderful stay at Cuilcheanna House. It was a perfect location as our family were staying on Bunree Caravan Park five minutes along the road. We stayed in the room Mull, a beautiful room with bay window and smaller window looking onto the loch with the most superb views on a gorgeous sunny day. Breakfast was delicious and we particularly enjoyed being able to use fresh milk from the fridge for our teas and coffees in our room. Access to a lovely beach was a real plus. Wish we could have stayed longer and will definitely return."
+      },
+      {
+            "name": "Guest from Liskeard",
+            "date": "16th August, 2026",
+            "date_iso": "2026-08-16",
+            "rating": 5.0,
+            "comment": "There were 6 of us, four from Cornwall and two from Australia. We stayed for three nights it was like a home from home, it was comfortable. We choose the B&B as it was well placed for us to visit other beautiful places in the surrounding area. The family and staff were really lovely."
+      },
+      {
+            "name": "Guest from Dalkeith",
+            "date": "14th August, 2026",
+            "date_iso": "2026-08-14",
+            "rating": 5.0,
+            "comment": "Excellent accommodation"
+      },
+      {
+            "name": "Guest from The Green, Dunsfold",
+            "date": "1st August, 2026",
+            "date_iso": "2026-08-01",
+            "rating": 5.0,
+            "comment": "We stayed in a lovely room (Mull). The property throughout was to a very high standard. Ideally placed for exploring Glencoe etc."
+      },
+      {
+            "name": "Guest from Saint-Hyacinthe",
+            "date": "28th July, 2026",
+            "date_iso": "2026-07-28",
+            "rating": 5.0,
+            "comment": "Nous avons passé trois merveilleuses nuits dans ce chambre B&B. La maison est magnifique, spacieuse et très bien entretenue. Du cabinet chauffé pour nos vêtements humides après une journée , aux pantoufles pour éviter de marcher avec nos bottes remplie de boue et du sucre à la crème dans la chambre : tout est pensé pour nous rendre la vie plus belle ! Notre chambre était décorée avec goût, le lit était confortable, et une délicate fragrance parfumait la maison, la rendant encore plus accueillante. Le petit-déjeuner était délicieux et préparé avec soin, un vrai plus pour commencer la journée! Nos hôtes ont été d'une grande gentillesse et aux petits soins tout au long de notre séjour. J'avais quelques demandes et elles ont toutes été prises en compte avec beaucoup de réactivité. Un véritable havre de paix où l'on se sent immédiatement bien. Nous recommandons cette adresse sans la moindre hésitation et y reviendrons avec grand plaisir !"
+      },
+      {
+            "name": "Guest from Yarroweyah",
+            "date": "17th July, 2026",
+            "date_iso": "2026-07-17",
+            "rating": 5.0,
+            "comment": "Easy check in. Access to dining area which was well set up. Beautiful room. Very clean and airy. Walk to the beach. Views are amazing. Peaceful. Stunning 😍"
+      },
+      {
+            "name": "Guest from Broussard",
+            "date": "12th July, 2026",
+            "date_iso": "2026-07-12",
+            "rating": 5.0,
+            "comment": "We had a fabulous stay at this B&B. It was exceptionally clean, modern, and beautifully maintained. The atmosphere was peaceful and romantic, making it the perfect place to relax and unwind. The location was excellent, and the views from the windows were absolutely beautiful. Everything about our stay exceeded our expectations and it truly felt like a dream getaway. Overall, I would highly recommend this B&B to anyone looking for a place to stay in the area. It offers a wonderful combination of comfort, tranquility, and stunning surroundings. We would definitely stay here again!"
+      },
+      {
+            "name": "Guest from Wethersfield",
+            "date": "11th July, 2026",
+            "date_iso": "2026-07-11",
+            "rating": 5.0,
+            "comment": "Beautiful location, nice accommodations, and easy to navigate. Loved it!"
+      },
+      {
+            "name": "Guest from Houston",
+            "date": "6th July, 2026",
+            "date_iso": "2026-07-06",
+            "rating": 5.0,
+            "comment": "I cannot possibly recommend Cuilcheanna House higher. What a WONDERFUL place to stay."
+      },
+      {
+            "name": "Guest from Leland",
+            "date": "4th July, 2026",
+            "date_iso": "2026-07-04",
+            "rating": 5.0,
+            "comment": "We had a fantastic time at Cuilcheanna House! The location is gorgeous, the house is beautiful, and the hosts are wonderful. We are looking forward to coming back!"
+      },
+      {
+            "name": "Guest from Frodsham",
+            "date": "16th June, 2026",
+            "date_iso": "2026-06-16",
+            "rating": 5.0,
+            "comment": "This b and b is in extensive grounds in a lovely location. It is clean and comfortable and the owners are very friendly. We thoroughly enjoyed our stay."
+      },
+      {
+            "name": "Guest from Chapareillan",
+            "date": "11th June, 2026",
+            "date_iso": "2026-06-11",
+            "rating": 5.0,
+            "comment": "Très belle adresse avec une jolie vue. Chambre bien équipée. Juste une chose, le matelas était un peu trop mou pour nous."
+      },
+      {
+            "name": "Guest from Henderson",
+            "date": "25th May, 2026",
+            "date_iso": "2026-05-25",
+            "rating": 5.0,
+            "comment": "Absolutely beautiful location. The room was lovely. Thoroughly enjoyed our time there. Great locations between Fort William and Glencoe."
+      },
+      {
+            "name": "Guest from Wellesley",
+            "date": "24th May, 2026",
+            "date_iso": "2026-05-24",
+            "rating": 5.0,
+            "comment": "This was an absolutely lovely stay and you could tell cleanliness was very important to the caretaker. They also have a whole kitchen area welcome for anyone to use so you can buy food from the grocery store and store/prep it in the kitchen, which is a huge perk and money saver! Everything was well thought out and intentional. An absolutely beautiful house with a beautiful view right on the loch (with access)."
+      },
+      {
+            "name": "Guest from Whitby",
+            "date": "22nd May, 2026",
+            "date_iso": "2026-05-22",
+            "rating": 5.0,
+            "comment": "We absolutely loved our stay here. It was our favourite place of all the locations we stayed at in Scotland. It was beautiful, aesthetic, and Emma was lovely. The views were unbelievable, the breakfast was delicious, and we hope to come back."
+      },
+      {
+            "name": "Guest from",
+            "date": "19th May, 2026",
+            "date_iso": "2026-05-19",
+            "rating": 5.0,
+            "comment": "Wonderful place to stay. Fantastic staff; very helpful. Ask them about good hikes. Well stocked dinning area to use for bringing in food. Eating dinner, overlooking the lake, is very relaxing after a day of hiking!"
+      }
+];
   </script>
 <style>
   .ftbr-section{
@@ -40,17 +158,20 @@
     --ftbr-line: #e7e2d1;
     --ftbr-star: #b3a13a;
     --ftbr-accent: #7c7e50;
+    /* The site sets kepler-std on its own elements rather than on <body>,
+       so inheriting would land us on the browser default. */
+    --ftbr-font: "kepler-std", Georgia, "Times New Roman", serif;
     background: var(--ftbr-bg);
     padding: 64px 0 72px;
     width: 100%;
     overflow: hidden;
-    font-family: inherit;
+    font-family: var(--ftbr-font);
   }
   .ftbr-head{ text-align:center; margin:0 auto 8px; max-width:90%; }
   .ftbr-title{
-    font-family: inherit;
+    font-family: var(--ftbr-font);
     font-size: clamp(1.7rem, 3.4vw, 2.6rem);
-    line-height:1.15; color:var(--ftbr-ink); margin:0 0 10px; font-weight:600;
+    line-height:1.15; color:var(--ftbr-ink); margin:0 0 10px; font-weight:400;
   }
   .ftbr-sub{ color:var(--ftbr-muted); font-size:0.95rem; margin:0 0 4px; letter-spacing:.02em; }
   .ftbr-sub a{ color:var(--ftbr-accent); text-decoration:none; border-bottom:1px solid transparent; }
@@ -73,14 +194,14 @@
   .ftbr-stars-fill{ position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; color:var(--ftbr-star); }
   .ftbr-stars-fill::before{ content:"★★★★★"; }
   .ftbr-quote{
-    color:var(--ftbr-ink); font-size:1.02rem; line-height:1.6; margin:0 0 22px;
+    color:var(--ftbr-ink); font-size:1.02rem; font-weight:300; line-height:1.6; margin:0 0 22px;
     text-align:center; flex:1 1 auto;
     display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden;
   }
   .ftbr-who{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:auto; }
   .ftbr-avatar{ width:52px; height:52px; border-radius:50%; background:#ece8da; display:flex; align-items:center; justify-content:center; }
   .ftbr-avatar svg{ width:52px; height:52px; display:block; }
-  .ftbr-name{ font-weight:600; color:var(--ftbr-ink); font-size:.98rem; }
+  .ftbr-name{ font-weight:500; color:var(--ftbr-ink); font-size:.98rem; }
   .ftbr-meta{ color:var(--ftbr-muted); font-size:.8rem; letter-spacing:.02em; }
 
   @media (max-width:640px){ .ftbr-card{ width:280px; } .ftbr-section{ padding:48px 0 54px; } }
@@ -92,23 +213,25 @@
     .ftbr-dup{ display:none; }
   }
 </style>
-
 <script>
 (function () {
   "use strict";
 
   // ---- CONFIG ---------------------------------------------------------------
-  var RAW_URL = "__RAW_URL__"; // e.g. https://raw.githubusercontent.com/USER/REPO/main/reviews.json
+  var RAW_URL = "https://raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json";
   var TITLE   = "Kind Words from Our Guests";
   var SUBLINK = "https://www.freetobook.com/reviews/all?w_id=50548&w_tkn=4fkenhRxXnPtna2JOE3gjBZewnvLblGyDiQwp8stAIAAoCuGjEGMrOmoe4elD";
-  var MAX_CARDS = 18;   // most-recent N commented reviews
-  var MIN_CHARS = 0;    // set >0 to hide very short comments
+  var MAX_CARDS  = 18;  // most-recent N reviews that pass the filters
+  var MIN_RATING = 5;   // 5-star reviews only
+  var MIN_CHARS  = 0;   // set >0 to hide very short comments
   // ---------------------------------------------------------------------------
 
   var AVATAR = '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
     + '<circle cx="24" cy="24" r="24" fill="#e6e1d2"/>'
     + '<circle cx="24" cy="19" r="8" fill="#b9b39d"/>'
     + '<path d="M9 42c1.6-8.4 8-13 15-13s13.4 4.6 15 13a24 24 0 0 1-30 0z" fill="#b9b39d"/></svg>';
+
+  var cached = null;  // reviews, kept across client-side page changes
 
   function esc(s){ return String(s == null ? "" : s)
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
@@ -136,7 +259,8 @@
 
   function build(mount, reviews){
     reviews = (reviews || []).filter(function(r){
-      return r && r.comment && r.comment.length >= MIN_CHARS;
+      return r && r.comment && r.comment.length >= MIN_CHARS
+        && Number(r.rating) >= MIN_RATING;
     }).slice(0, MAX_CARDS);
     if (!reviews.length) return;
 
@@ -181,17 +305,35 @@
     mount.setAttribute("data-ftbr-done", "1");
 
     if (window.FTB_REVIEWS_SAMPLE) { build(mount, window.FTB_REVIEWS_SAMPLE); return; }
+    if (cached) { build(mount, cached); return; }
 
     fetch(RAW_URL, { cache: "no-store" })
       .then(function(res){ if(!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
-      .then(function(data){ build(mount, (data && data.reviews) || data); })
+      .then(function(data){ cached = (data && data.reviews) || data; build(mount, cached); })
       .catch(function(err){ /* fail quietly: no broken section */ console && console.warn("[ftbr]", err); });
+  }
+
+  // Squarespace swaps pages client-side, which replaces the marker element
+  // without firing DOMContentLoaded — so re-check on navigation and whenever
+  // the DOM changes. start() is idempotent via the data-ftbr-done flag.
+  var pending = null;
+  function restart(){
+    if (pending) return;
+    pending = setTimeout(function(){ pending = null; start(); }, 150);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();
+
+  window.addEventListener("mercury:load", restart);
+  window.addEventListener("popstate", restart);
+  if (window.MutationObserver && document.body) {
+    new MutationObserver(function(){
+      var mount = document.getElementById("ftb-reviews");
+      if (mount && !mount.getAttribute("data-ftbr-done")) restart();
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 })();
 </script>
-
 </body>
 </html>
