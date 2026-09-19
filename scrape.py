@@ -31,6 +31,7 @@ Environment:
 """
 
 import os
+import copy
 import re
 import json
 import sys
@@ -232,7 +233,18 @@ def main() -> int:
         return 1
 
     existing = load_existing(OUT_PATH)
+    before = copy.deepcopy(existing)
     merged, added = merge(existing, scraped)
+
+    # Leave the file alone when the reviews themselves haven't changed --
+    # otherwise the "updated" timestamp alone would produce a commit every
+    # single day. "updated" therefore means "reviews last changed".
+    if merged == before and os.path.exists(OUT_PATH):
+        print(
+            f"fetched={len(all_reviews)} with_comment={len(scraped)} "
+            f"total={len(merged)} -- no changes, {OUT_PATH} left as is."
+        )
+        return 0
 
     payload = {
         "property": PROPERTY_NAME,

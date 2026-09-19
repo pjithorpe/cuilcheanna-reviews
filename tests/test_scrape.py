@@ -1,8 +1,10 @@
 """Lean regression tests: enough to catch a FreeToBook markup change or a
 merge bug. The fixture is a real /reviews/get fragment captured 2026-09-19."""
 
+import json
 import os
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -87,6 +89,29 @@ class MergeTests(unittest.TestCase):
         }
         merged, _ = scrape.merge([legacy], [])
         self.assertEqual(merged[0]["date_iso"], "2026-02-01")
+
+
+class WriteTests(unittest.TestCase):
+    """main() must not rewrite the file when the reviews are unchanged --
+    otherwise the 'updated' timestamp alone produces a commit every day."""
+
+    def setUp(self):
+        self._saved = (scrape.HTML_FILE, scrape.OUT_PATH)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        scrape.HTML_FILE = FIXTURE
+        scrape.OUT_PATH = os.path.join(self.tmp.name, "reviews.json")
+
+    def tearDown(self):
+        scrape.HTML_FILE, scrape.OUT_PATH = self._saved
+
+    def test_second_run_is_a_no_op(self):
+        self.assertEqual(scrape.main(), 0)
+        first = open(scrape.OUT_PATH, encoding="utf-8").read()
+        self.assertEqual(json.loads(first)["count"], 35)
+
+        self.assertEqual(scrape.main(), 0)
+        self.assertEqual(open(scrape.OUT_PATH, encoding="utf-8").read(), first)
 
 
 class DateTests(unittest.TestCase):

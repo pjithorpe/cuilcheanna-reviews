@@ -19,6 +19,10 @@ sourced from FreeToBook.
 front-end's decision — the injected snippet currently displays 5-star reviews only,
 newest first, capped at 18 cards.
 
+The file is only rewritten when the reviews themselves change, so its `updated`
+field means *"reviews last changed"*, not *"last checked"*. A run that finds nothing
+new leaves the file (and the commit log) alone.
+
 ## Configuration
 The FreeToBook widget token is stored as the repository secret **`FTB_W_TKN`**
 (Settings → Secrets and variables → Actions). `w_id` and `property_id` are set
