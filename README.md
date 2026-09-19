@@ -48,6 +48,7 @@ makes rotation a one-field change.
 | `squarespace-injection.html` | The site's Code Injection snippet |
 | `preview.html` | Standalone design preview |
 | `IMPLEMENTATION_PLAN.md` | Build/deploy plan and current status |
+| `REVIEW-SOURCES.md` | Analysis of adding Booking.com, Airbnb and Google as sources |
 
 ## Running it locally
 ```bash
