@@ -3,13 +3,13 @@
      Paste this whole block into: Squarespace → Settings → Advanced →
      Code Injection → FOOTER, then Save.
 
-     Placement:
-       • Drop a Code Block containing  <div id="ftb-reviews"></div>  wherever
-         you want the section to appear, and it renders there.
-         (Intended home: directly under the "Spend your whole time in the
-         Highlands…" heading on the homepage.)
-       • If no such marker exists, it auto-mounts on the homepage, just above
-         the site footer.
+     Placement (no Code Block needed):
+       • On the homepage it mounts itself directly under the section holding
+         the "…on the way to Skye, Mull and the far north." heading.
+       • To move it, drop a Code Block containing  <div id="ftb-reviews"></div>
+         wherever you want it instead — that always wins.
+       • If neither is found, it falls back to just above the site footer.
+       • It never renders on any page other than the homepage.
 
      Data comes from a cached JSON feed refreshed daily by GitHub Actions:
      https://github.com/pjithorpe/cuilcheanna-reviews
@@ -90,6 +90,9 @@
   var MAX_CARDS  = 18;  // most-recent N reviews that pass the filters
   var MIN_RATING = 5;   // 5-star reviews only
   var MIN_CHARS  = 0;   // set >0 to hide very short comments
+  // Homepage anchor: the section holding this heading is what the testimonials
+  // sit under. Used only when no <div id="ftb-reviews"> marker exists.
+  var ANCHOR_RE  = /Skye, Mull and the far north/i;
   // ---------------------------------------------------------------------------
 
   var AVATAR = '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
@@ -154,12 +157,30 @@
   function getMount(){
     var explicit = document.getElementById("ftb-reviews");
     if (explicit) return explicit;
-    // Homepage only: auto-mount just above the footer.
+
+    // Homepage only from here on.
     var path = location.pathname.replace(/\/+$/, "");
     if (path !== "") return null;
-    var footer = document.querySelector("footer, #footer-sections, .Footer, .sqs-layout--footer");
+
     var host = document.createElement("div");
     host.id = "ftb-reviews";
+
+    // Preferred: straight after the section holding the anchor heading.
+    // It has to go *between* sections, not inside one -- Squarespace's
+    // fluid-engine blocks are grid-positioned, and an element dropped inside
+    // one without a grid area lays out but is painted over by what follows.
+    var heading = null, headings = document.querySelectorAll("h1, h2, h3, h4");
+    for (var i = 0; i < headings.length; i++) {
+      if (ANCHOR_RE.test(headings[i].textContent || "")) { heading = headings[i]; break; }
+    }
+    var section = heading && heading.closest("section[data-section-id], .page-section, section");
+    if (section && section.parentNode) {
+      section.parentNode.insertBefore(host, section.nextSibling);
+      return host;
+    }
+
+    // Fallback: just above the site footer.
+    var footer = document.querySelector("footer, #footer-sections, .Footer, .sqs-layout--footer");
     if (footer && footer.parentNode) footer.parentNode.insertBefore(host, footer);
     else document.body.appendChild(host);
     return host;
