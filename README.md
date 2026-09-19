@@ -13,7 +13,12 @@ sourced from FreeToBook.
 2. **`.github/workflows/reviews.yml`** runs the tests and the scraper once a day
    (and on demand) and commits `reviews.json` when it changes.
 3. The website reads the raw `reviews.json` and renders an auto-scrolling
-   testimonials section (see `squarespace-injection.html`).
+   testimonials section (see `squarespace-injection.html`), live since 19 Sep 2026.
+
+The snippet lives in **one place only**: Squarespace → Settings → Advanced →
+Code Injection → **FOOTER**. It mounts itself on the homepage, under the section
+holding the "…on the way to Skye, Mull and the far north." heading, and renders
+nowhere else. Clearing that FOOTER box removes the section completely.
 
 `reviews.json` holds **every** commented review. Which ones are shown is the
 front-end's decision — the injected snippet currently displays 5-star reviews only,

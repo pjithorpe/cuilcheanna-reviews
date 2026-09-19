@@ -8,12 +8,20 @@ auto-scrolling testimonials section on cuilcheannahouse.com via Squarespace Code
 This plan covers everything left after the previous session, which was interrupted part-way through
 uploading files to GitHub through the browser.
 
-> **Status 2026-09-19:** Phases 0–4 are **done** — the repo is published, the feed is live at
+> **Status 2026-09-19: SHIPPED.** The section is live on cuilcheannahouse.com, directly under the
+> "Spend your whole time in the Highlands…" section. Deployment was a single Footer Code Injection
+> paste — no Code Block was needed in the end, because the snippet finds its own anchor. Verified on
+> the published site: 18 cards on desktop and mobile, no horizontal overflow, no console errors, and
+> the section correctly absent from `/rooms`.
+>
+> **To remove it:** Squarespace → Settings → Advanced → Code Injection → clear the FOOTER box → Save.
+> That is the only change made to the site.
+>
+> Phases 0–4 detail: the repo is published, the feed is live at
 > `raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json` (35 commented reviews,
 > 29 of them 5-star), the secret is set, two manual workflow runs have gone green, and the finished
 > snippet has been dry-run against the live homepage in the browser (18 cards, kepler-std, correct
-> position) without changing anything on the site. Only Phase 5 (Squarespace) remains, behind the
-> approval gate.
+> position) before anything was changed on the site.
 >
 > Two things came out of doing the work:
 > - The scraper rewrote `reviews.json` on every run because the `updated` timestamp always changed, which
@@ -21,9 +29,8 @@ uploading files to GitHub through the browser.
 > - In the dry run, a marker placed *inside* the fluid-engine block that holds the "Spend your whole
 >   time…" heading laid out at full size but never painted — fluid-engine blocks are grid-positioned and
 >   ours had no grid area, so the following section covered it. Placed between the two sections it renders
->   perfectly and full-bleed. **Phase 5 must therefore put the Code Block in its own section directly
->   below that text section, not inside it** — and the result must be checked visually, not just by
->   looking at the DOM.
+>   perfectly and full-bleed. So the snippet now inserts itself *between* sections and needs no Code
+>   Block at all — which is also why the DOM has to be checked visually, not just queried.
 
 ---
 
