@@ -8,14 +8,22 @@ auto-scrolling testimonials section on cuilcheannahouse.com via Squarespace Code
 This plan covers everything left after the previous session, which was interrupted part-way through
 uploading files to GitHub through the browser.
 
-> **Status 2026-09-19:** Phases 0–3 are **done** — the repo is published, the feed is live at
+> **Status 2026-09-19:** Phases 0–4 are **done** — the repo is published, the feed is live at
 > `raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json` (35 commented reviews,
-> 29 of them 5-star), the secret is set, and two manual workflow runs have gone green. Next up is
-> Phase 4 (front-end), then Phase 5 (Squarespace) behind the approval gate.
+> 29 of them 5-star), the secret is set, two manual workflow runs have gone green, and the finished
+> snippet has been dry-run against the live homepage in the browser (18 cards, kepler-std, correct
+> position) without changing anything on the site. Only Phase 5 (Squarespace) remains, behind the
+> approval gate.
 >
-> One fix came out of the first live run: the scraper rewrote `reviews.json` on every run because the
-> `updated` timestamp always changed, which would have meant a commit every day. It now only writes when
-> the reviews themselves change.
+> Two things came out of doing the work:
+> - The scraper rewrote `reviews.json` on every run because the `updated` timestamp always changed, which
+>   would have meant a commit every day. It now only writes when the reviews themselves change.
+> - In the dry run, a marker placed *inside* the fluid-engine block that holds the "Spend your whole
+>   time…" heading laid out at full size but never painted — fluid-engine blocks are grid-positioned and
+>   ours had no grid area, so the following section covered it. Placed between the two sections it renders
+>   perfectly and full-bleed. **Phase 5 must therefore put the Code Block in its own section directly
+>   below that text section, not inside it** — and the result must be checked visually, not just by
+>   looking at the DOM.
 
 ---
 
