@@ -160,6 +160,7 @@
 
     mount.innerHTML = "";
     mount.appendChild(section);
+    fullBleed(section);
 
     // Duration scales with card count so speed stays consistent.
     var track = section.querySelector(".ftbr-track");
@@ -170,6 +171,30 @@
   function getMount(){
     return document.getElementById("ftb-reviews");
   }
+
+  // A Squarespace Code Block sits in a grid cell far narrower than the page,
+  // which would squash the marquee into a column. Measure where the section
+  // has landed and pull it out to the full width of the viewport. Measured
+  // rather than 100vw, because 100vw includes the scrollbar.
+  function fullBleed(section){
+    section.style.width = "auto";
+    section.style.maxWidth = "none";
+    section.style.marginLeft = "0px";
+    var docWidth = document.documentElement.clientWidth;
+    var left = section.getBoundingClientRect().left;
+    section.style.width = docWidth + "px";
+    section.style.marginLeft = Math.round(-left) + "px";
+  }
+
+  var resizing = null;
+  window.addEventListener("resize", function(){
+    if (resizing) clearTimeout(resizing);
+    resizing = setTimeout(function(){
+      resizing = null;
+      var section = document.querySelector("#ftb-reviews .ftbr-section");
+      if (section) fullBleed(section);
+    }, 150);
+  });
 
   function start(){
     var mount = getMount();
