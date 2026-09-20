@@ -192,11 +192,14 @@
   /* Rating: five glyphs, each empty, half or full, plus the exact score. */
   .ftbr-rating{ display:flex; align-items:center; justify-content:center; gap:9px; margin:0 auto 16px; }
   .ftbr-stars{ display:inline-flex; font-size:17px; line-height:1; }
-  .ftbr-star{ position:relative; display:inline-block; width:1em; height:1em; margin-right:3px; color:#ded9c4; }
+  /* The ::before sits in flow so the box is exactly one glyph wide, whatever
+     font ends up supplying the star. The half overlay can then clip at 50% of
+     the real glyph rather than a guessed em width, which cut past the middle. */
+  .ftbr-star{ position:relative; display:inline-block; margin-right:3px; color:#ded9c4; }
   .ftbr-star:last-child{ margin-right:0; }
-  .ftbr-star::before{ content:"★"; position:absolute; left:0; top:0; line-height:1; }
+  .ftbr-star::before{ content:"★"; display:block; line-height:1; }
   .ftbr-star.is-full{ color:var(--ftbr-star); }
-  .ftbr-star.is-half::after{ content:"★"; position:absolute; left:0; top:0; width:.5em; overflow:hidden; color:var(--ftbr-star); line-height:1; }
+  .ftbr-star.is-half::after{ content:"★"; position:absolute; left:0; top:0; width:50%; overflow:hidden; white-space:nowrap; color:var(--ftbr-star); line-height:1; }
   .ftbr-score{ color:var(--ftbr-muted); font-size:.85rem; line-height:1; font-variant-numeric:tabular-nums; }
   .ftbr-quote{
     color:var(--ftbr-ink); font-size:1.02rem; font-weight:300; line-height:1.6; margin:0 0 22px;
