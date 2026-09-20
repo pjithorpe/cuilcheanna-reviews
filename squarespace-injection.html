@@ -3,13 +3,13 @@
      Paste this whole block into: Squarespace → Settings → Advanced →
      Code Injection → FOOTER, then Save.
 
-     Placement (no Code Block needed):
-       • On the homepage it mounts itself directly under the section holding
-         the "…on the way to Skye, Mull and the far north." heading.
-       • To move it, drop a Code Block containing  <div id="ftb-reviews"></div>
-         wherever you want it instead — that always wins.
-       • If neither is found, it falls back to just above the site footer.
-       • It never renders on any page other than the homepage.
+     Placement:
+       • It renders wherever a Code Block containing
+             <div id="ftb-reviews"></div>
+         appears, and nowhere else. No marker, no section — on any page.
+       • Give that Code Block a section of its own: Squarespace's fluid-engine
+         blocks are grid-positioned, so a full-width marquee placed inside a
+         populated section gets clipped or painted over by what follows.
 
      Data comes from a cached JSON feed refreshed daily by GitHub Actions:
      https://github.com/pjithorpe/cuilcheanna-reviews
@@ -54,10 +54,15 @@
     box-shadow:0 10px 30px -18px rgba(60,55,35,.5);
     display:flex; flex-direction:column;
   }
-  .ftbr-stars{ position:relative; display:inline-block; font-size:17px; line-height:1; letter-spacing:3px; margin:0 auto 16px; }
-  .ftbr-stars::before{ content:"★★★★★"; color:#ded9c4; }
-  .ftbr-stars-fill{ position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; color:var(--ftbr-star); }
-  .ftbr-stars-fill::before{ content:"★★★★★"; }
+  /* Rating: five glyphs, each empty, half or full, plus the exact score. */
+  .ftbr-rating{ display:flex; align-items:center; justify-content:center; gap:9px; margin:0 auto 16px; }
+  .ftbr-stars{ display:inline-flex; font-size:17px; line-height:1; }
+  .ftbr-star{ position:relative; display:inline-block; width:1em; height:1em; margin-right:3px; color:#ded9c4; }
+  .ftbr-star:last-child{ margin-right:0; }
+  .ftbr-star::before{ content:"★"; position:absolute; left:0; top:0; line-height:1; }
+  .ftbr-star.is-full{ color:var(--ftbr-star); }
+  .ftbr-star.is-half::after{ content:"★"; position:absolute; left:0; top:0; width:.5em; overflow:hidden; color:var(--ftbr-star); line-height:1; }
+  .ftbr-score{ color:var(--ftbr-muted); font-size:.85rem; line-height:1; font-variant-numeric:tabular-nums; }
   .ftbr-quote{
     color:var(--ftbr-ink); font-size:1.02rem; font-weight:300; line-height:1.6; margin:0 0 22px;
     text-align:center; flex:1 1 auto;
@@ -87,12 +92,9 @@
   var RAW_URL = "https://raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json";
   var TITLE   = "Kind Words from Our Guests";
   var SUBLINK = "https://www.freetobook.com/reviews/all?w_id=50548&w_tkn=4fkenhRxXnPtna2JOE3gjBZewnvLblGyDiQwp8stAIAAoCuGjEGMrOmoe4elD";
-  var MAX_CARDS  = 18;  // most-recent N reviews that pass the filters
-  var MIN_RATING = 5;   // 5-star reviews only
-  var MIN_CHARS  = 0;   // set >0 to hide very short comments
-  // Homepage anchor: the section holding this heading is what the testimonials
-  // sit under. Used only when no <div id="ftb-reviews"> marker exists.
-  var ANCHOR_RE  = /Skye, Mull and the far north/i;
+  var MAX_CARDS  = 18;   // most-recent N reviews that pass the filters
+  var MIN_RATING = 4.5;  // 4.5 stars and above
+  var MIN_CHARS  = 0;    // set >0 to hide very short comments
   // ---------------------------------------------------------------------------
 
   var AVATAR = '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
@@ -106,17 +108,27 @@
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 
-  function starsHTML(rating){
-    var pct = Math.max(0, Math.min(100, (Number(rating) / 5) * 100));
-    return '<span class="ftbr-stars" role="img" aria-label="'
-      + (Math.round(Number(rating)*10)/10) + ' out of 5">'
-      + '<span class="ftbr-stars-fill" style="width:' + pct + '%"></span></span>';
+  // Stars are drawn to the nearest half; the exact score sits beside them.
+  function ratingHTML(rating){
+    var val = Number(rating);
+    if (!isFinite(val) || val <= 0) return "";
+    var half = Math.round(val * 2) / 2, stars = "";
+    for (var i = 1; i <= 5; i++) {
+      stars += '<span class="ftbr-star '
+        + (half >= i ? "is-full" : (half >= i - 0.5 ? "is-half" : ""))
+        + '"></span>';
+    }
+    return '<div class="ftbr-rating">'
+      + '<span class="ftbr-stars" role="img" aria-label="' + val.toFixed(1) + ' out of 5">'
+      + stars + '</span>'
+      + '<span class="ftbr-score" aria-hidden="true">' + val.toFixed(1) + '</span>'
+      + '</div>';
   }
 
   function cardHTML(r, dup){
     return '<figure class="ftbr-card' + (dup ? ' ftbr-dup' : '') + '"'
       + (dup ? ' aria-hidden="true"' : '') + '>'
-      + starsHTML(r.rating)
+      + ratingHTML(r.rating)
       + '<blockquote class="ftbr-quote">' + esc(r.comment) + '</blockquote>'
       + '<figcaption class="ftbr-who">'
       + '<span class="ftbr-avatar">' + AVATAR + '</span>'
@@ -142,7 +154,7 @@
       '<div class="ftbr-head">'
       +   '<h2 class="ftbr-title">' + esc(TITLE) + '</h2>'
       +   '<p class="ftbr-sub"><a href="' + esc(SUBLINK) + '" target="_blank" rel="noopener">'
-      +       'Read all our reviews on FreeToBook →</a></p>'
+      +       'Read all our reviews →</a></p>'
       + '</div>'
       + '<div class="ftbr-viewport"><div class="ftbr-track">' + cards + dups + '</div></div>';
 
@@ -154,36 +166,9 @@
     track.style.setProperty("--ftbr-duration", Math.max(30, reviews.length * 6) + "s");
   }
 
+  // The marker Code Block decides where this renders. No marker, no section.
   function getMount(){
-    var explicit = document.getElementById("ftb-reviews");
-    if (explicit) return explicit;
-
-    // Homepage only from here on.
-    var path = location.pathname.replace(/\/+$/, "");
-    if (path !== "") return null;
-
-    var host = document.createElement("div");
-    host.id = "ftb-reviews";
-
-    // Preferred: straight after the section holding the anchor heading.
-    // It has to go *between* sections, not inside one -- Squarespace's
-    // fluid-engine blocks are grid-positioned, and an element dropped inside
-    // one without a grid area lays out but is painted over by what follows.
-    var heading = null, headings = document.querySelectorAll("h1, h2, h3, h4");
-    for (var i = 0; i < headings.length; i++) {
-      if (ANCHOR_RE.test(headings[i].textContent || "")) { heading = headings[i]; break; }
-    }
-    var section = heading && heading.closest("section[data-section-id], .page-section, section");
-    if (section && section.parentNode) {
-      section.parentNode.insertBefore(host, section.nextSibling);
-      return host;
-    }
-
-    // Fallback: just above the site footer.
-    var footer = document.querySelector("footer, #footer-sections, .Footer, .sqs-layout--footer");
-    if (footer && footer.parentNode) footer.parentNode.insertBefore(host, footer);
-    else document.body.appendChild(host);
-    return host;
+    return document.getElementById("ftb-reviews");
   }
 
   function start(){

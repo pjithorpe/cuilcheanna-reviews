@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-  <p class="preview-note">▼ Design preview · real 5-star FreeToBook reviews · the live site renders in kepler-std ▼</p>
+  <p class="preview-note">▼ Design preview · real FreeToBook reviews, 4.5★ and above · the live site renders in kepler-std ▼</p>
   <div id="ftb-reviews"></div>
   <script>
     window.FTB_REVIEWS_SAMPLE = [
@@ -27,6 +27,13 @@
             "date_iso": "2026-09-18",
             "rating": 5.0,
             "comment": "good wine needs no bush!"
+      },
+      {
+            "name": "Guest from Fredericton",
+            "date": "3rd September, 2026",
+            "date_iso": "2026-09-03",
+            "rating": 4.5,
+            "comment": "The stay was wonderful. The views were amazing. I did find it odd to be asked when we wanted to eat breakfast and then arrive and it was almost full. It was fine we didn’t mind sharing a table. I found the shower products very nice. Some of the best. And the fan was a pleasant find as I am use to one when I sleep. Overall a wonderful stay and an amazing property!"
       },
       {
             "name": "Guest from MOUTFORT",
@@ -71,6 +78,13 @@
             "comment": "Nous avons passé trois merveilleuses nuits dans ce chambre B&B. La maison est magnifique, spacieuse et très bien entretenue. Du cabinet chauffé pour nos vêtements humides après une journée , aux pantoufles pour éviter de marcher avec nos bottes remplie de boue et du sucre à la crème dans la chambre : tout est pensé pour nous rendre la vie plus belle ! Notre chambre était décorée avec goût, le lit était confortable, et une délicate fragrance parfumait la maison, la rendant encore plus accueillante. Le petit-déjeuner était délicieux et préparé avec soin, un vrai plus pour commencer la journée! Nos hôtes ont été d'une grande gentillesse et aux petits soins tout au long de notre séjour. J'avais quelques demandes et elles ont toutes été prises en compte avec beaucoup de réactivité. Un véritable havre de paix où l'on se sent immédiatement bien. Nous recommandons cette adresse sans la moindre hésitation et y reviendrons avec grand plaisir !"
       },
       {
+            "name": "Guest from Zürich",
+            "date": "27th July, 2026",
+            "date_iso": "2026-07-27",
+            "rating": 4.5,
+            "comment": "great B&B with a beautiful view and excellent breakfast! rooms are spacious and welcoming with modern bathrooms. there is a nice sitting room as well with lots of books… you will enjoy your stay from the first minute!"
+      },
+      {
             "name": "Guest from Yarroweyah",
             "date": "17th July, 2026",
             "date_iso": "2026-07-17",
@@ -106,6 +120,13 @@
             "comment": "We had a fantastic time at Cuilcheanna House! The location is gorgeous, the house is beautiful, and the hosts are wonderful. We are looking forward to coming back!"
       },
       {
+            "name": "Guest from Muscat",
+            "date": "30th June, 2026",
+            "date_iso": "2026-06-30",
+            "rating": 4.8,
+            "comment": "Lovely stay .. amazing views"
+      },
+      {
             "name": "Guest from Frodsham",
             "date": "16th June, 2026",
             "date_iso": "2026-06-16",
@@ -120,32 +141,11 @@
             "comment": "Très belle adresse avec une jolie vue. Chambre bien équipée. Juste une chose, le matelas était un peu trop mou pour nous."
       },
       {
-            "name": "Guest from Henderson",
-            "date": "25th May, 2026",
-            "date_iso": "2026-05-25",
-            "rating": 5.0,
-            "comment": "Absolutely beautiful location. The room was lovely. Thoroughly enjoyed our time there. Great locations between Fort William and Glencoe."
-      },
-      {
-            "name": "Guest from Wellesley",
-            "date": "24th May, 2026",
-            "date_iso": "2026-05-24",
-            "rating": 5.0,
-            "comment": "This was an absolutely lovely stay and you could tell cleanliness was very important to the caretaker. They also have a whole kitchen area welcome for anyone to use so you can buy food from the grocery store and store/prep it in the kitchen, which is a huge perk and money saver! Everything was well thought out and intentional. An absolutely beautiful house with a beautiful view right on the loch (with access)."
-      },
-      {
-            "name": "Guest from Whitby",
-            "date": "22nd May, 2026",
-            "date_iso": "2026-05-22",
-            "rating": 5.0,
-            "comment": "We absolutely loved our stay here. It was our favourite place of all the locations we stayed at in Scotland. It was beautiful, aesthetic, and Emma was lovely. The views were unbelievable, the breakfast was delicious, and we hope to come back."
-      },
-      {
-            "name": "Guest from",
-            "date": "19th May, 2026",
-            "date_iso": "2026-05-19",
-            "rating": 5.0,
-            "comment": "Wonderful place to stay. Fantastic staff; very helpful. Ask them about good hikes. Well stocked dinning area to use for bringing in food. Eating dinner, overlooking the lake, is very relaxing after a day of hiking!"
+            "name": "Guest from London",
+            "date": "1st June, 2026",
+            "date_iso": "2026-06-01",
+            "rating": 4.8,
+            "comment": "We really enjoyed our stay at the House, which is set in a beautiful location and equipped / supplied with quality, sustainability and its surroundings in mind. Definitely appreciate and support what the owners are doing. We particularly loved the mattress, shower and airing cupboard which were the best things to look for after a long, possibly muddy, day hiking about! The only thing is that we found our room \"Iona\" to be quite warm because of the pipes running in the cupboard. We managed to get it below 25° by opening the window on a cool night, but we were concerned about midges. If the stay and breakfast had been a bit more affordable we would have loved to make this our base for our stay in Scotland!"
       }
 ];
   </script>
@@ -189,10 +189,15 @@
     box-shadow:0 10px 30px -18px rgba(60,55,35,.5);
     display:flex; flex-direction:column;
   }
-  .ftbr-stars{ position:relative; display:inline-block; font-size:17px; line-height:1; letter-spacing:3px; margin:0 auto 16px; }
-  .ftbr-stars::before{ content:"★★★★★"; color:#ded9c4; }
-  .ftbr-stars-fill{ position:absolute; top:0; left:0; overflow:hidden; white-space:nowrap; color:var(--ftbr-star); }
-  .ftbr-stars-fill::before{ content:"★★★★★"; }
+  /* Rating: five glyphs, each empty, half or full, plus the exact score. */
+  .ftbr-rating{ display:flex; align-items:center; justify-content:center; gap:9px; margin:0 auto 16px; }
+  .ftbr-stars{ display:inline-flex; font-size:17px; line-height:1; }
+  .ftbr-star{ position:relative; display:inline-block; width:1em; height:1em; margin-right:3px; color:#ded9c4; }
+  .ftbr-star:last-child{ margin-right:0; }
+  .ftbr-star::before{ content:"★"; position:absolute; left:0; top:0; line-height:1; }
+  .ftbr-star.is-full{ color:var(--ftbr-star); }
+  .ftbr-star.is-half::after{ content:"★"; position:absolute; left:0; top:0; width:.5em; overflow:hidden; color:var(--ftbr-star); line-height:1; }
+  .ftbr-score{ color:var(--ftbr-muted); font-size:.85rem; line-height:1; font-variant-numeric:tabular-nums; }
   .ftbr-quote{
     color:var(--ftbr-ink); font-size:1.02rem; font-weight:300; line-height:1.6; margin:0 0 22px;
     text-align:center; flex:1 1 auto;
@@ -221,12 +226,9 @@
   var RAW_URL = "https://raw.githubusercontent.com/pjithorpe/cuilcheanna-reviews/master/reviews.json";
   var TITLE   = "Kind Words from Our Guests";
   var SUBLINK = "https://www.freetobook.com/reviews/all?w_id=50548&w_tkn=4fkenhRxXnPtna2JOE3gjBZewnvLblGyDiQwp8stAIAAoCuGjEGMrOmoe4elD";
-  var MAX_CARDS  = 18;  // most-recent N reviews that pass the filters
-  var MIN_RATING = 5;   // 5-star reviews only
-  var MIN_CHARS  = 0;   // set >0 to hide very short comments
-  // Homepage anchor: the section holding this heading is what the testimonials
-  // sit under. Used only when no <div id="ftb-reviews"> marker exists.
-  var ANCHOR_RE  = /Skye, Mull and the far north/i;
+  var MAX_CARDS  = 18;   // most-recent N reviews that pass the filters
+  var MIN_RATING = 4.5;  // 4.5 stars and above
+  var MIN_CHARS  = 0;    // set >0 to hide very short comments
   // ---------------------------------------------------------------------------
 
   var AVATAR = '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
@@ -240,17 +242,27 @@
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 
-  function starsHTML(rating){
-    var pct = Math.max(0, Math.min(100, (Number(rating) / 5) * 100));
-    return '<span class="ftbr-stars" role="img" aria-label="'
-      + (Math.round(Number(rating)*10)/10) + ' out of 5">'
-      + '<span class="ftbr-stars-fill" style="width:' + pct + '%"></span></span>';
+  // Stars are drawn to the nearest half; the exact score sits beside them.
+  function ratingHTML(rating){
+    var val = Number(rating);
+    if (!isFinite(val) || val <= 0) return "";
+    var half = Math.round(val * 2) / 2, stars = "";
+    for (var i = 1; i <= 5; i++) {
+      stars += '<span class="ftbr-star '
+        + (half >= i ? "is-full" : (half >= i - 0.5 ? "is-half" : ""))
+        + '"></span>';
+    }
+    return '<div class="ftbr-rating">'
+      + '<span class="ftbr-stars" role="img" aria-label="' + val.toFixed(1) + ' out of 5">'
+      + stars + '</span>'
+      + '<span class="ftbr-score" aria-hidden="true">' + val.toFixed(1) + '</span>'
+      + '</div>';
   }
 
   function cardHTML(r, dup){
     return '<figure class="ftbr-card' + (dup ? ' ftbr-dup' : '') + '"'
       + (dup ? ' aria-hidden="true"' : '') + '>'
-      + starsHTML(r.rating)
+      + ratingHTML(r.rating)
       + '<blockquote class="ftbr-quote">' + esc(r.comment) + '</blockquote>'
       + '<figcaption class="ftbr-who">'
       + '<span class="ftbr-avatar">' + AVATAR + '</span>'
@@ -276,7 +288,7 @@
       '<div class="ftbr-head">'
       +   '<h2 class="ftbr-title">' + esc(TITLE) + '</h2>'
       +   '<p class="ftbr-sub"><a href="' + esc(SUBLINK) + '" target="_blank" rel="noopener">'
-      +       'Read all our reviews on FreeToBook →</a></p>'
+      +       'Read all our reviews →</a></p>'
       + '</div>'
       + '<div class="ftbr-viewport"><div class="ftbr-track">' + cards + dups + '</div></div>';
 
@@ -288,36 +300,9 @@
     track.style.setProperty("--ftbr-duration", Math.max(30, reviews.length * 6) + "s");
   }
 
+  // The marker Code Block decides where this renders. No marker, no section.
   function getMount(){
-    var explicit = document.getElementById("ftb-reviews");
-    if (explicit) return explicit;
-
-    // Homepage only from here on.
-    var path = location.pathname.replace(/\/+$/, "");
-    if (path !== "") return null;
-
-    var host = document.createElement("div");
-    host.id = "ftb-reviews";
-
-    // Preferred: straight after the section holding the anchor heading.
-    // It has to go *between* sections, not inside one -- Squarespace's
-    // fluid-engine blocks are grid-positioned, and an element dropped inside
-    // one without a grid area lays out but is painted over by what follows.
-    var heading = null, headings = document.querySelectorAll("h1, h2, h3, h4");
-    for (var i = 0; i < headings.length; i++) {
-      if (ANCHOR_RE.test(headings[i].textContent || "")) { heading = headings[i]; break; }
-    }
-    var section = heading && heading.closest("section[data-section-id], .page-section, section");
-    if (section && section.parentNode) {
-      section.parentNode.insertBefore(host, section.nextSibling);
-      return host;
-    }
-
-    // Fallback: just above the site footer.
-    var footer = document.querySelector("footer, #footer-sections, .Footer, .sqs-layout--footer");
-    if (footer && footer.parentNode) footer.parentNode.insertBefore(host, footer);
-    else document.body.appendChild(host);
-    return host;
+    return document.getElementById("ftb-reviews");
   }
 
   function start(){

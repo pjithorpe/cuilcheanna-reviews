@@ -22,7 +22,7 @@ SNIPPET = "squarespace-injection.html"
 DATA = "reviews.json"
 OUT = "preview.html"
 
-MIN_RATING = 5  # keep in step with the snippet's CONFIG block
+MIN_RATING = 4.5  # keep in step with the snippet's CONFIG block
 MAX_CARDS = 18
 
 HEAD = """<!DOCTYPE html>
@@ -44,7 +44,7 @@ HEAD = """<!DOCTYPE html>
 </style>
 </head>
 <body>
-  <p class="preview-note">▼ Design preview · real 5-star FreeToBook reviews · the live site renders in kepler-std ▼</p>
+  <p class="preview-note">▼ Design preview · real FreeToBook reviews, 4.5★ and above · the live site renders in kepler-std ▼</p>
   <div id="ftb-reviews"></div>
   <script>
     window.FTB_REVIEWS_SAMPLE = __REVIEWS__;
